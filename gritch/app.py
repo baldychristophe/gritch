@@ -1,6 +1,8 @@
 from textual.app import App, ComposeResult
 from textual.widgets import Header, Footer
 
+from gritch.nav import NavWidget
+
 
 class GritchApp(App):
 
@@ -8,7 +10,8 @@ class GritchApp(App):
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
-        yield Header()
+        yield Header(name='Gritch')
+        yield NavWidget()
         yield Footer()
 
     def action_toggle_dark(self) -> None:
