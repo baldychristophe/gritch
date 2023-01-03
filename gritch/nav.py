@@ -12,5 +12,4 @@ class NavWidget(Static):
         yield Static(STARTING_DIRECTORY)
         yield Static(f'Current directory: {os.getcwd()}')
 
-        from rich.pretty import Pretty
-        yield Static(Pretty(os.listdir()))
+
