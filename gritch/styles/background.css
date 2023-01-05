@@ -1,0 +1,22 @@
+.background-primary-darken-3 {
+    background: $primary-background-darken-3;
+}
+.background-primary-darken-2 {
+    background: $primary-background-darken-2;
+}
+.background-primary-darken-1 {
+    background: $primary-background-darken-1;
+}
+.background-primary {
+    background: $primary-background;
+}
+.background-primary-lighten-1 {
+    background: $primary-background-lighten-1;
+}
+.background-primary-lighten-2 {
+    background: $primary-background-lighten-2;
+}
+.background-primary-lighten-3 {
+    background: $primary-background-lighten-3;
+}
+/* ------------------------------------------------------------------------------------------------------------------ */

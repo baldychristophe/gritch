@@ -7,13 +7,14 @@ from gritch.repositories import Repositories
 
 class GritchApp(App):
 
-    CSS_PATH = 'gritch.css'
+    CSS_PATH = [
+        'gritch.css', 'styles/background.css', 'styles/color.css', 'styles/height.css', 'styles/layout.css',
+        'styles/margin.css', 'styles/text.css', 'styles/width.css',
+    ]
     BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
-        yield Header(name='Gritch')
-        yield NavWidget()
         yield Footer()
         yield Repositories()
 

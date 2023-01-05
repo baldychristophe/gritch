@@ -1,7 +1,16 @@
-Repositories {
-
+.border-box {
+    border: solid;
 }
 
 RepositoryWidget {
-    border: solid green;
+    padding: 0 1;
+}
+.repo-container {
+    padding: 0 2;
+}
+.content-align {
+    content-align: right middle;
+}
+.border-repository {
+    border: tall $primary-lighten-2;
 }

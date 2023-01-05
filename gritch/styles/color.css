@@ -1,0 +1,51 @@
+.muted {
+    color: $text-muted;
+}
+.disabled {
+    color: $text-disabled;
+}
+/* ------------------------------------------------------------------------------------------------------------------ */
+.primary-darken-3 {
+    color: $primary-darken-3;
+}
+.primary-darken-2 {
+    color: $primary-darken-2;
+}
+.primary-darken-1 {
+    color: $primary-darken-1;
+}
+.primary {
+    color: $primary;
+}
+.primary-lighten-1 {
+    color: $primary-lighten-1;
+}
+.primary-lighten-2 {
+    color: $primary-lighten-2;
+}
+.primary-lighten-3 {
+    color: $primary-lighten-3;
+}
+/* ------------------------------------------------------------------------------------------------------------------ */
+.secondary-darken-3 {
+    color: $secondary-darken-3;
+}
+.secondary-darken-2 {
+    color: $secondary-darken-2;
+}
+.secondary-darken-1 {
+    color: $secondary-darken-1;
+}
+.secondary {
+    color: $secondary;
+}
+.secondary-lighten-1 {
+    color: $secondary-lighten-1;
+}
+.secondary-lighten-2 {
+    color: $secondary-lighten-2;
+}
+.secondary-lighten-3 {
+    color: $secondary-lighten-3;
+}
+/* ------------------------------------------------------------------------------------------------------------------ */
