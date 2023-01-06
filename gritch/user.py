@@ -2,12 +2,14 @@ from textual import events
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Container
+from textual.screen import Screen
 from textual.widgets import Static
 from textual.widget import Widget
 
 from github import AuthenticatedUser, Repository
 
-from .github import get_repositories
+from . import api_client
+from . import messages
 from . import utils
 
 
@@ -113,6 +115,8 @@ class Repositories(Widget, can_focus=True):
 
     def action_enter_repository(self) -> None:
         self.log('enter repository')
+        self.log('Creating EnterRepository message with repository=%s' % self.query('RepositoryPreview')[self.selected_repository_index].repository)
+        self.emit_no_wait(messages.EnterRepository(self, self.query('RepositoryPreview')[self.selected_repository_index].repository))
 
     def on_mount(self, event: events.Mount):
         self.focus()
@@ -124,13 +128,13 @@ class Repositories(Widget, can_focus=True):
             RepositoryPreview(
                 repository=repository,
                 classes='background-primary-darken-2 mb-1 mr-2 ml-2 px-2 border-repository',
-            ) for repository in get_repositories(self.user)
+            ) for repository in api_client.get_repositories(self.user)
         ]
         repos[self.selected_repository_index].add_class('selected-repository')
         yield Container(*repos, classes='px-4')
 
 
-class User(Widget):
+class UserScreen(Screen):
     def __init__(
         self,
         user: AuthenticatedUser,
