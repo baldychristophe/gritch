@@ -20,3 +20,24 @@
     background: $primary-background-lighten-3;
 }
 /* ------------------------------------------------------------------------------------------------------------------ */
+.hover-background-primary-darken-3:hover {
+    background: $primary-background-darken-3 !important;
+}
+.hover-background-primary-darken-2:hover {
+    background: $primary-background-darken-2 !important;
+}
+.hover-background-primary-darken-1:hover {
+    background: $primary-background-darken-1 !important;
+}
+.hover-background-primary:hover {
+    background: $primary-background !important;
+}
+.hover-background-primary-lighten-1:hover {
+    background: $primary-background-lighten-1 !important;
+}
+.hover-background-primary-lighten-2:hover {
+    background: $primary-background-lighten-2 !important;
+}
+.hover-background-primary-lighten-3:hover {
+    background: $primary-background-lighten-3 !important;
+}

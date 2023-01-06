@@ -12,5 +12,9 @@ def get_github() -> Github:
     return Github(get_github_access_token())
 
 
-def get_repositories() -> Repository:
-    return get_github().get_user().get_repos()
+def get_user():
+    return get_github().get_user()
+
+
+def get_repositories(user) -> Repository:
+    return user.get_repos()
