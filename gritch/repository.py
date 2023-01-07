@@ -6,10 +6,31 @@ from textual.screen import Screen
 from textual.widgets import Footer, Static
 from textual.widget import Widget
 
+from rich.syntax import Syntax
+
 from github import Repository, ContentFile
 
 from . import icons
 from . import messages
+
+
+class FileDisplay(Widget):
+    content_file: ContentFile
+
+    def __init__(
+            self,
+            *,
+            content_file: ContentFile,
+            name=None,
+            id=None,
+            classes=None,
+    ):
+        super().__init__(name=name, id=id, classes=classes)
+        self.content_file = content_file
+        self.syntax = Syntax(content_file.decoded_content.decode(), Syntax.guess_lexer(content_file.path))
+
+    def compose(self) -> ComposeResult:
+        yield Static(self.syntax)
 
 
 class ContentFileDisplay(Static):
@@ -53,15 +74,14 @@ class Directory(Widget, can_focus=True):
         self,
         *,
         repository: Repository,
-        path: str,
+        content_files: list[ContentFile],
         name=None,
         id=None,
         classes=None,
     ):
         super().__init__(name=name, id=id, classes=classes)
         self.repository = repository
-        self.path = path
-        self.content_files = repository.get_contents(path)
+        self.content_files = content_files
         # Sort files and directories
         self.content_files.sort(key=lambda x: x.type)
         self.selected_file_index = 0
@@ -88,6 +108,14 @@ class Directory(Widget, can_focus=True):
         content_file_displays[self.selected_file_index].add_class('highlight-background')
         self.scroll_to_widget(content_file_displays[self.selected_file_index])
 
+    def action_enter_file(self) -> None:
+        selected_content_file = self.content_files[self.selected_file_index]
+        self.emit_no_wait(messages.EnterDirectory(
+            self,
+            repository=self.repository,
+            path=selected_content_file.path,
+        ))
+
     def on_mount(self, event: events.Mount):
         self.focus()
 
@@ -112,20 +140,30 @@ class RepositoryScreen(Screen):
         self,
         *,
         repository: Repository,
+        path: str,
         name=None,
         id=None,
         classes=None,
     ):
         super().__init__(name=name, id=id, classes=classes)
         self.repository = repository
+        self.path = path
+        self.path_content = repository.get_contents(path)
+        if isinstance(self.path_content, list):
+            self.mode = 'dir'
+        else:
+            self.mode = 'file'
 
     def compose(self) -> ComposeResult:
-        yield Container(
-            Static(self.repository.full_name, classes='mb-2'),
-            Directory(repository=self.repository, path=""),
-            classes='overflow-y-hidden', id='repository-content'
-        )
+        if self.mode == 'dir':
+            yield Container(
+                Static(self.repository.full_name, classes='mb-2'),
+                Directory(repository=self.repository, content_files=self.path_content),
+                classes='overflow-y-hidden', id='repository-content'
+            )
+        else:
+            yield FileDisplay(content_file=self.path_content)
         yield Footer()
 
     def action_exit_repository(self):
-        self.emit_no_wait(messages.ExitRepository(self))
+        self.emit_no_wait(messages.ExitDirectory(self))

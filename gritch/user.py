@@ -103,7 +103,11 @@ class Repositories(Widget, can_focus=True):
 
     def action_enter_repository(self) -> None:
         self.emit_no_wait(
-            messages.EnterRepository(self, self.query('RepositoryPreview')[self.selected_repository_index].repository)
+            messages.EnterDirectory(
+                self,
+                repository=self.query('RepositoryPreview')[self.selected_repository_index].repository,
+                path="",
+            )
         )
 
     def on_mount(self, event: events.Mount):

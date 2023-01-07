@@ -2,7 +2,7 @@ from textual import events
 from textual.app import App, ComposeResult
 
 from gritch.api_client import get_user
-from gritch.messages import EnterRepository
+from gritch.messages import EnterDirectory
 from gritch.repository import RepositoryScreen
 from gritch.user import UserScreen
 
@@ -28,8 +28,8 @@ class GritchApp(App):
         self.install_screen(UserScreen(user=user), name='root')
         self.push_screen('root')
 
-    def on_enter_repository(self, event: EnterRepository):
-        self.push_screen(RepositoryScreen(repository=event.repository))
+    def on_enter_directory(self, event: EnterDirectory):
+        self.push_screen(RepositoryScreen(repository=event.repository, path=event.path))
 
-    def on_exit_repository(self):
+    def on_exit_directory(self):
         self.pop_screen()
