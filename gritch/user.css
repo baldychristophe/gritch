@@ -1,6 +1,0 @@
-.border-repository {
-    border: tall $primary-lighten-2;
-}
-.selected-repository {
-    background: $primary-background !important;
-}

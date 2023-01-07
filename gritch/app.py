@@ -1,6 +1,5 @@
 from textual import events
 from textual.app import App, ComposeResult
-from textual.widgets import Footer
 
 from gritch.api_client import get_user
 from gritch.messages import EnterRepository
@@ -11,9 +10,9 @@ from gritch.user import UserScreen
 class GritchApp(App):
 
     CSS_PATH = [
-        'gritch.css', 'user.css',
+        'app.css',
         'styles/background.css', 'styles/color.css', 'styles/height.css', 'styles/layout.css',
-        'styles/margin.css', 'styles/padding.css', 'styles/text.css', 'styles/width.css',
+        'styles/margin.css', 'styles/overflow.css', 'styles/padding.css', 'styles/text.css', 'styles/width.css',
     ]
 
     BINDINGS = [
@@ -30,7 +29,7 @@ class GritchApp(App):
         self.push_screen('root')
 
     def on_enter_repository(self, event: EnterRepository):
-        self.push_screen(RepositoryScreen(event.repository))
+        self.push_screen(RepositoryScreen(repository=event.repository))
 
     def on_exit_repository(self):
         self.pop_screen()

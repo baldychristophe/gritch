@@ -1,0 +1,6 @@
+.highlight-background {
+    background: $primary-background !important;
+}
+.border-primary-background {
+    border: tall $primary-background;
+}
