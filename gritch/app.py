@@ -24,10 +24,6 @@ class GritchApp(App):
         'repo': RepositoryScreen,
     }
 
-    # def compose(self):
-    #     user = get_user()
-    #     yield UserScreen(user=user)
-
     def on_mount(self, event: events.Mount) -> None:
         user = get_user()
         self.install_screen(UserScreen(user=user), name='root')

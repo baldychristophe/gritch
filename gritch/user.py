@@ -82,16 +82,6 @@ class Repositories(Widget, can_focus=True):
         self.selected_repository_index = 0
         self.user = user
 
-    def key_down(self, event: events.Key) -> None:
-        event.stop()
-        event.prevent_default()
-        self.action_next_repository()
-
-    def key_up(self, event: events.Key) -> None:
-        event.stop()
-        event.prevent_default()
-        self.action_previous_repository()
-
     def action_next_repository(self) -> None:
         repository_widgets = self.query('RepositoryPreview')
         if len(repository_widgets) - 1 == self.selected_repository_index:
@@ -101,7 +91,7 @@ class Repositories(Widget, can_focus=True):
         repository_widgets[self.selected_repository_index].remove_class('selected-repository')
         self.selected_repository_index += 1
         repository_widgets[self.selected_repository_index].add_class('selected-repository')
-        self.refresh(layout=True)
+        self.scroll_to_widget(repository_widgets[self.selected_repository_index])
 
     def action_previous_repository(self) -> None:
         repository_widgets = self.query('RepositoryPreview')
@@ -112,11 +102,12 @@ class Repositories(Widget, can_focus=True):
         repository_widgets[self.selected_repository_index].remove_class('selected-repository')
         self.selected_repository_index -= 1
         repository_widgets[self.selected_repository_index].add_class('selected-repository')
+        self.scroll_to_widget(repository_widgets[self.selected_repository_index])
 
     def action_enter_repository(self) -> None:
-        self.log('enter repository')
-        self.log('Creating EnterRepository message with repository=%s' % self.query('RepositoryPreview')[self.selected_repository_index].repository)
-        self.emit_no_wait(messages.EnterRepository(self, self.query('RepositoryPreview')[self.selected_repository_index].repository))
+        self.emit_no_wait(
+            messages.EnterRepository(self, self.query('RepositoryPreview')[self.selected_repository_index].repository)
+        )
 
     def on_mount(self, event: events.Mount):
         self.focus()
