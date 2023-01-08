@@ -1,0 +1,12 @@
+.dock-top {
+    dock: top;
+}
+.dock-bottom {
+    dock: bottom;
+}
+.dock-left {
+    dock: left;
+}
+.dock-right {
+    dock: right;
+}

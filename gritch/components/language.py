@@ -1,12 +1,9 @@
 import json
 import os
 
-from textual import events
 from textual.app import ComposeResult
-from textual.binding import Binding
 from textual.containers import Container
-from textual.screen import Screen
-from textual.widgets import Footer, Static
+from textual.widgets import Static
 from textual.widget import Widget
 
 from rich.text import Text

@@ -1,0 +1,19 @@
+.ah-left {
+    align-horizontal: left;
+}
+.ah-center {
+    align-horizontal: center;
+}
+.ah-right {
+    align-horizontal: right;
+}
+/* ------------------------------------------------------------------------------------------------------------------ */
+.av-top {
+    align-vertical: top;
+}
+.av-middle {
+    align-vertical: middle;
+}
+.av-bottom {
+    align-vertical: bottom;
+}

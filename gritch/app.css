@@ -4,6 +4,6 @@
 .border-primary-background {
     border: tall $primary-background;
 }
-Language {
-
+.border-bottom-white {
+    border-bottom: solid white;
 }

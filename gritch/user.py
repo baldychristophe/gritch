@@ -51,7 +51,6 @@ class RepositoryPreview(Static):
         yield Static(self.repository.description or "")
 
         yield Container(
-            # Static(self._get_repository_language(), classes='w-1fr'),
             Language(self._get_repository_language(), classes='w-1fr'),
             Static(
                 f'Updated on {utils.format_datetime(self.repository.updated_at)}',
@@ -116,8 +115,6 @@ class Repositories(Widget, can_focus=True):
         self.focus()
 
     def compose(self) -> ComposeResult:
-        yield Static(f'Repositories', classes='mb-1')
-
         repos = [
             RepositoryPreview(
                 repository=repository,
@@ -125,7 +122,11 @@ class Repositories(Widget, can_focus=True):
             ) for repository in api_client.get_repositories(self.user)
         ]
         repos[self.selected_repository_index].add_class('highlight-background')
-        yield Container(*repos, classes='px-4')
+        yield Container(
+            # Add an empty line to simulate a margin but with the scrolling fitting with the component above
+            Static(""),
+            *repos,
+        )
 
 
 class UserScreen(Screen):
@@ -141,5 +142,22 @@ class UserScreen(Screen):
         self.user = user
 
     def compose(self) -> ComposeResult:
-        yield Repositories(user=self.user)
+        yield Container(
+            Container(
+                Container(
+                    Static(self.user.login, classes='w-auto'),
+                    classes='w-auto mr-4 dock-left',
+                ),
+                Container(
+                    Static('Overview', classes='disabled w-auto mr-4'),
+                    Static('Repositories', classes='text-underline w-auto mr-4'),
+                    Static('Projects', classes='disabled w-auto mr-4'),
+                    Static('Packages', classes='disabled w-auto mr-4'),
+                    Static('Stars', classes='disabled w-auto'),
+                    classes='layout-horizontal ah-center',
+                ),
+                classes='dock-top h-auto p-1 layout-horizontal border-bottom-white',
+            ),
+            Repositories(user=self.user),
+        )
         yield Footer()

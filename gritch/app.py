@@ -11,8 +11,9 @@ class GritchApp(App):
 
     CSS_PATH = [
         'app.css',
-        'styles/background.css', 'styles/color.css', 'styles/height.css', 'styles/layout.css',
-        'styles/margin.css', 'styles/overflow.css', 'styles/padding.css', 'styles/text.css', 'styles/width.css',
+        'styles/align.css', 'styles/background.css', 'styles/color.css', 'styles/dock.css', 'styles/height.css',
+        'styles/layout.css', 'styles/margin.css', 'styles/overflow.css', 'styles/padding.css', 'styles/text.css',
+        'styles/width.css',
     ]
 
     BINDINGS = [
