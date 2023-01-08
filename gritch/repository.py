@@ -27,10 +27,14 @@ class FileDisplay(Widget):
     ):
         super().__init__(name=name, id=id, classes=classes)
         self.content_file = content_file
-        self.syntax = Syntax(content_file.decoded_content.decode(), Syntax.guess_lexer(content_file.path))
+        self.syntax = Syntax(
+            content_file.decoded_content.decode(),
+            Syntax.guess_lexer(content_file.path),
+            line_numbers=True,
+        )
 
     def compose(self) -> ComposeResult:
-        yield Static(self.syntax)
+        yield Container(Static(self.syntax))
 
 
 class ContentFileDisplay(Static):

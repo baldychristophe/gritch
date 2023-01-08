@@ -5,6 +5,7 @@ setup(
     install_requires=[
         'click',
         'PyGithub',
+        'rich',
         'textual',
     ],
 )

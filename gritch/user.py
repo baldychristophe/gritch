@@ -11,6 +11,7 @@ from github import AuthenticatedUser, Repository
 from . import api_client
 from . import messages
 from . import utils
+from gritch.components.language import Language
 
 
 class RepositoryPreview(Static):
@@ -50,7 +51,8 @@ class RepositoryPreview(Static):
         yield Static(self.repository.description or "")
 
         yield Container(
-            Static(self._get_repository_language(), classes='w-1fr'),
+            # Static(self._get_repository_language(), classes='w-1fr'),
+            Language(self._get_repository_language(), classes='w-1fr'),
             Static(
                 f'Updated on {utils.format_datetime(self.repository.updated_at)}',
                 classes='w-1fr muted text-right',
