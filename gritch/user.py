@@ -9,6 +9,7 @@ from textual.widget import Widget
 from github import AuthenticatedUser, Repository
 
 from . import api_client
+from . import icons
 from . import messages
 from . import utils
 from gritch.components.language import Language
@@ -129,6 +130,59 @@ class Repositories(Widget, can_focus=True):
         )
 
 
+class NavigationBar(Container):
+
+    def __init__(
+        self,
+        user: AuthenticatedUser,
+        *,
+        name=None,
+        id=None,
+        classes=None,
+    ):
+        super().__init__(name=name, id=id, classes=classes)
+        self.user = user
+
+    def compose(self) -> ComposeResult:
+        yield Container(
+            Static(self.user.login, classes='w-auto'),
+            classes='w-auto mr-4 dock-left',
+        )
+        yield Container(
+            Container(
+                Static(icons.OVERVIEW, classes='w-auto mr-1'),
+                Static('Overview', classes='w-auto'),
+                classes='w-auto mr-4 disabled layout-horizontal',
+                id='overview-navigation-bar',
+            ),
+            Container(
+                Static(icons.REPOSITORIES, classes='w-auto mr-1'),
+                Static('Repositories', classes='w-auto'),
+                classes='text-underline mr-4 layout-horizontal w-auto secondary',
+                id='repositories-navigation-bar'
+            ),
+            Container(
+                Static(icons.PROJECTS, classes='w-auto mr-1'),
+                Static('Projects', classes='w-auto'),
+                classes='w-auto mr-4 disabled layout-horizontal',
+                id='projects-navigation-bar',
+            ),
+            Container(
+                Static(icons.PACKAGES, classes='w-auto mr-1'),
+                Static('Packages', classes='disabled w-auto'),
+                classes='w-auto mr-4 disabled layout-horizontal',
+                id='packages-navigation-bar',
+            ),
+            Container(
+                Static(icons.STARS, classes='w-auto mr-1'),
+                Static('Stars', classes='disabled w-auto'),
+                classes='w-auto mr-4 disabled layout-horizontal',
+                id='stars-navigation-bar',
+            ),
+            classes='layout-horizontal ah-center',
+        )
+
+
 class UserScreen(Screen):
     def __init__(
         self,
@@ -143,19 +197,8 @@ class UserScreen(Screen):
 
     def compose(self) -> ComposeResult:
         yield Container(
-            Container(
-                Container(
-                    Static(self.user.login, classes='w-auto'),
-                    classes='w-auto mr-4 dock-left',
-                ),
-                Container(
-                    Static('Overview', classes='disabled w-auto mr-4'),
-                    Static('Repositories', classes='text-underline w-auto mr-4'),
-                    Static('Projects', classes='disabled w-auto mr-4'),
-                    Static('Packages', classes='disabled w-auto mr-4'),
-                    Static('Stars', classes='disabled w-auto'),
-                    classes='layout-horizontal ah-center',
-                ),
+            NavigationBar(
+                user=self.user,
                 classes='dock-top h-auto p-1 layout-horizontal border-bottom-white',
             ),
             Repositories(user=self.user),
