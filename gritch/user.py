@@ -2,6 +2,7 @@ from textual import events
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Container
+from textual.reactive import reactive
 from textual.screen import Screen
 from textual.widgets import Footer, Static
 from textual.widget import Widget
@@ -66,7 +67,7 @@ class Repositories(Widget, can_focus=True):
     BINDINGS = [
         Binding('down', 'next_repository', 'Next', show=False),
         Binding('up', 'previous_repository', 'Previous', show=False),
-        Binding('enter, right', 'enter_repository', 'Enter', show=False),
+        Binding('enter', 'enter_repository', 'Enter', show=False),
     ]
 
     def __init__(
@@ -130,8 +131,7 @@ class Repositories(Widget, can_focus=True):
         )
 
 
-class NavigationBar(Container):
-
+class Overview(Widget):
     def __init__(
         self,
         user: AuthenticatedUser,
@@ -144,11 +144,30 @@ class NavigationBar(Container):
         self.user = user
 
     def compose(self) -> ComposeResult:
+        yield Static('Overview')
+
+
+class NavigationBar(Container):
+
+    def __init__(
+        self,
+        user: AuthenticatedUser,
+        *,
+        selected_tab_index: int,
+        name=None,
+        id=None,
+        classes=None,
+    ):
+        super().__init__(name=name, id=id, classes=classes)
+        self.user = user
+        self.selected_tab_index = selected_tab_index
+
+    def compose(self) -> ComposeResult:
         yield Container(
             Static(self.user.login, classes='w-auto'),
             classes='w-auto mr-4 dock-left',
         )
-        yield Container(
+        navigation_bar_tabs = [
             Container(
                 Static(icons.OVERVIEW, classes='w-auto mr-1'),
                 Static('Overview', classes='w-auto'),
@@ -158,7 +177,7 @@ class NavigationBar(Container):
             Container(
                 Static(icons.REPOSITORIES, classes='w-auto mr-1'),
                 Static('Repositories', classes='w-auto'),
-                classes='text-underline mr-4 layout-horizontal w-auto secondary',
+                classes='mr-4 layout-horizontal w-auto',
                 id='repositories-navigation-bar'
             ),
             Container(
@@ -179,28 +198,53 @@ class NavigationBar(Container):
                 classes='w-auto mr-4 disabled layout-horizontal',
                 id='stars-navigation-bar',
             ),
-            classes='layout-horizontal ah-center',
-        )
+        ]
+        navigation_bar_tabs[self.selected_tab_index].add_class('secondary', 'text-underline')
+        yield Container(*navigation_bar_tabs, classes='layout-horizontal ah-center')
 
 
 class UserScreen(Screen):
+
+    BINDINGS = [
+        Binding('left', 'previous_tab', 'Previous tab'),
+        Binding('right', 'next_tab', 'Next tab'),
+    ]
+
+    tab_index_to_component = {
+        0: Overview,
+        1: Repositories,
+    }
+
     def __init__(
         self,
         user: AuthenticatedUser,
         *,
+        selected_tab_index=0,
         name=None,
         id=None,
         classes=None,
     ):
         super().__init__(name=name, id=id, classes=classes)
         self.user = user
+        self.selected_tab_index = selected_tab_index
+
+    def action_next_tab(self) -> None:
+        self.log('Next tab index')
+        if self.selected_tab_index < 4:
+            self.emit_no_wait(messages.SwitchTab(self, next_tab_index=self.selected_tab_index + 1))
+
+    def action_previous_tab(self) -> None:
+        self.log('Previous tab index')
+        if self.selected_tab_index > 0:
+            self.emit_no_wait(messages.SwitchTab(self, next_tab_index=self.selected_tab_index - 1))
 
     def compose(self) -> ComposeResult:
         yield Container(
             NavigationBar(
                 user=self.user,
+                selected_tab_index=self.selected_tab_index,
                 classes='dock-top h-auto p-1 layout-horizontal border-bottom-white',
             ),
-            Repositories(user=self.user),
+            self.tab_index_to_component[self.selected_tab_index](user=self.user)
         )
         yield Footer()

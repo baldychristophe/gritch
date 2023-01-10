@@ -16,3 +16,10 @@ class EnterDirectory(Message, bubble=True):
 
 class ExitDirectory(Message, bubble=True):
     pass
+
+
+class SwitchTab(Message, bubble=True):
+    def __init__(self, sender: MessageTarget, *, next_tab_index: int) -> None:
+        self.sender = sender
+        self.next_tab_index = next_tab_index
+        super().__init__(sender)

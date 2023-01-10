@@ -2,7 +2,7 @@ from textual import events
 from textual.app import App, ComposeResult
 
 from gritch.api_client import get_user
-from gritch.messages import EnterDirectory
+from gritch.messages import EnterDirectory, SwitchTab
 from gritch.repository import RepositoryScreen
 from gritch.user import UserScreen
 
@@ -20,9 +20,14 @@ class GritchApp(App):
         ('ctrl+q', 'quit', 'Exit'),
     ]
 
+    def __init__(self):
+        super().__init__()
+        self.user = None
+
     def on_mount(self, event: events.Mount) -> None:
         user = get_user()
-        self.install_screen(UserScreen(user=user), name='root')
+        self.user = user
+        self.install_screen(UserScreen(user=user, selected_tab_index=1), name='root')
         self.push_screen('root')
 
     def on_enter_directory(self, event: EnterDirectory):
@@ -30,3 +35,6 @@ class GritchApp(App):
 
     def on_exit_directory(self):
         self.pop_screen()
+
+    def on_switch_tab(self, event: SwitchTab):
+        self.switch_screen(UserScreen(user=self.user, selected_tab_index=event.next_tab_index))
