@@ -20,10 +20,6 @@ class GritchApp(App):
         ('ctrl+q', 'quit', 'Exit'),
     ]
 
-    SCREENS = {
-        'repo': RepositoryScreen,
-    }
-
     def on_mount(self, event: events.Mount) -> None:
         user = get_user()
         self.install_screen(UserScreen(user=user), name='root')
