@@ -5,7 +5,9 @@ setup(
     install_requires=[
         'click',
         'diskcache',
+        'Pillow',
         'PyGithub',
+        'requests',
         'rich',
         'textual',
     ],

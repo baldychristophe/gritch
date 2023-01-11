@@ -27,7 +27,7 @@ class GritchApp(App):
     def on_mount(self, event: events.Mount) -> None:
         user = get_user()
         self.user = user
-        self.install_screen(UserScreen(user=user, selected_tab_index=1), name='root')
+        self.install_screen(UserScreen(user=user, selected_tab_index=0), name='root')
         self.push_screen('root')
 
     def on_enter_directory(self, event: EnterDirectory):

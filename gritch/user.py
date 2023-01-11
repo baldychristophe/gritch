@@ -2,7 +2,6 @@ from textual import events
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Container
-from textual.reactive import reactive
 from textual.screen import Screen
 from textual.widgets import Footer, Static
 from textual.widget import Widget
@@ -13,6 +12,8 @@ from . import api_client
 from . import icons
 from . import messages
 from . import utils
+from gritch.components.contributions import Contribution
+from gritch.components.image import Image
 from gritch.components.language import Language
 
 
@@ -144,7 +145,50 @@ class Overview(Widget):
         self.user = user
 
     def compose(self) -> ComposeResult:
-        yield Static('Overview')
+        image_width = self.app.size.width // 4
+        user_description_container = Container(
+            Image(self.user.avatar_url, (image_width, image_width), classes='w-1fr'),
+            Container(
+                Container(
+                    Static(self.user.name, classes='w-auto accent-lighten-3 text-bold'),
+                    classes='w-auto layout-horizontal',
+                ),
+                Container(
+                    Static(icons.LOGIN, classes='w-auto mr-2'),
+                    Static(self.user.login, classes='w-auto muted'),
+                    classes='w-auto layout-horizontal',
+                ),
+                Container(
+                    Static(icons.BIO, classes='w-auto mr-2'),
+                    Static(self.user.bio, classes='w-auto'),
+                    classes='w-auto layout-horizontal',
+                ),
+                Container(
+                    Static(icons.LOCATION, classes='w-auto mr-2'),
+                    Static(self.user.location, classes='w-auto'),
+                    classes='w-auto layout-horizontal',
+                ),
+                Container(
+                    Static(icons.EMAIL, classes='w-auto mr-2'),
+                    Static(self.user.email, classes='w-auto'),
+                    classes='w-auto layout-horizontal',
+                ),
+                Container(
+                    Static(icons.FOLLOWERS, classes='w-auto mr-2'),
+                    Static(str(self.user.followers), classes='w-auto text-bold mr-1'),
+                    Static('followers', classes='w-auto mr-1'),
+                    Static('-', classes='w-auto mr-1 text-bold'),
+                    Static(str(self.user.following), classes='w-auto text-bold mr-1'),
+                    Static('following', classes='w-auto'),
+                    classes='w-auto layout-horizontal muted',
+                ),
+                classes='w-1fr p-4',
+            ),
+            classes='layout-horizontal mb-4',
+        )
+        user_description_container.styles.height = image_width
+        yield user_description_container
+        yield Contribution(user_url=self.user.html_url, classes='ah-center')
 
 
 class NavigationBar(Container):
@@ -171,7 +215,7 @@ class NavigationBar(Container):
             Container(
                 Static(icons.OVERVIEW, classes='w-auto mr-1'),
                 Static('Overview', classes='w-auto'),
-                classes='w-auto mr-4 disabled layout-horizontal',
+                classes='w-auto mr-4 layout-horizontal',
                 id='overview-navigation-bar',
             ),
             Container(

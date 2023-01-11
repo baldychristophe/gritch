@@ -49,3 +49,47 @@
     color: $secondary-lighten-3;
 }
 /* ------------------------------------------------------------------------------------------------------------------ */
+.accent-darken-3 {
+    color: $accent-darken-3;
+}
+.accent-darken-2 {
+    color: $accent-darken-2;
+}
+.accent-darken-1 {
+    color: $accent-darken-1;
+}
+.accent {
+    color: $accent;
+}
+.accent-lighten-1 {
+    color: $accent-lighten-1;
+}
+.accent-lighten-2 {
+    color: $accent-lighten-2;
+}
+.accent-lighten-3 {
+    color: $accent-lighten-3;
+}
+/* ------------------------------------------------------------------------------------------------------------------ */
+.success-darken-3 {
+    color: $success-darken-3;
+}
+.success-darken-2 {
+    color: $success-darken-2;
+}
+.success-darken-1 {
+    color: $success-darken-1;
+}
+.success {
+    color: $success;
+}
+.success-lighten-1 {
+    color: $success-lighten-1;
+}
+.success-lighten-2 {
+    color: $success-lighten-2;
+}
+.success-lighten-3 {
+    color: $success-lighten-3;
+}
+/* ------------------------------------------------------------------------------------------------------------------ */
