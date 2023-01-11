@@ -43,7 +43,7 @@ class Language(Widget):
         if self.language:
             yield Container(
                 # Render a colored full block "█"
-                Static(Text("\u2588", style=Style(color=self.color)), classes='mr-1 w-auto'),
+                Static(Text("\u25a0", style=Style(color=self.color)), classes='mr-1 w-auto'),
                 Static(self.language, classes='w-auto'),
                 classes='layout-horizontal',
             )
