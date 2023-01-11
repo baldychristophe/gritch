@@ -151,27 +151,27 @@ class Overview(Widget):
             Container(
                 Container(
                     Static(self.user.name, classes='w-auto accent-lighten-3 text-bold'),
-                    classes='w-auto layout-horizontal',
+                    classes='w-auto layout-horizontal h-auto mb-1',
                 ),
                 Container(
                     Static(icons.LOGIN, classes='w-auto mr-2'),
                     Static(self.user.login, classes='w-auto muted'),
-                    classes='w-auto layout-horizontal',
+                    classes='w-auto layout-horizontal h-auto mb-1',
                 ),
                 Container(
                     Static(icons.BIO, classes='w-auto mr-2'),
                     Static(self.user.bio, classes='w-auto'),
-                    classes='w-auto layout-horizontal',
+                    classes='w-auto layout-horizontal h-auto mb-1',
                 ),
                 Container(
                     Static(icons.LOCATION, classes='w-auto mr-2'),
                     Static(self.user.location, classes='w-auto'),
-                    classes='w-auto layout-horizontal',
+                    classes='w-auto layout-horizontal h-auto mb-1',
                 ),
                 Container(
                     Static(icons.EMAIL, classes='w-auto mr-2'),
                     Static(self.user.email, classes='w-auto'),
-                    classes='w-auto layout-horizontal',
+                    classes='w-auto layout-horizontal h-auto mb-1',
                 ),
                 Container(
                     Static(icons.FOLLOWERS, classes='w-auto mr-2'),
@@ -180,7 +180,7 @@ class Overview(Widget):
                     Static('-', classes='w-auto mr-1 text-bold'),
                     Static(str(self.user.following), classes='w-auto text-bold mr-1'),
                     Static('following', classes='w-auto'),
-                    classes='w-auto layout-horizontal muted',
+                    classes='w-auto layout-horizontal muted h-auto mb-1',
                 ),
                 classes='w-1fr p-4',
             ),
