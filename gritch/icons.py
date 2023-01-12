@@ -12,3 +12,9 @@ BIO = ':speech_balloon:'
 FOLLOWERS = ':busts_in_silhouette:'
 LOCATION = ':world_map:'
 EMAIL = ':memo:'
+
+WATCHERS = ':eyes:'
+FORKS = ':trident_emblem:'
+
+BRANCH = ':herb:'
+TAGS = ':label:'

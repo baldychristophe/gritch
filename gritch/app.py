@@ -27,8 +27,11 @@ class GritchApp(App):
     def on_mount(self, event: events.Mount) -> None:
         user = get_user()
         self.user = user
-        self.install_screen(UserScreen(user=user, selected_tab_index=0), name='root')
-        self.push_screen('root')
+        repos = user.get_repos()
+        self.push_screen(RepositoryScreen(repository=repos[5], path=""))
+
+        # self.install_screen(UserScreen(user=user, selected_tab_index=0), name='root')
+        # self.push_screen('root')
 
     def on_enter_directory(self, event: EnterDirectory):
         self.push_screen(RepositoryScreen(repository=event.repository, path=event.path))

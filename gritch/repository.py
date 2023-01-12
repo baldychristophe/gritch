@@ -12,6 +12,7 @@ from github import Repository, ContentFile
 
 from . import icons
 from . import messages
+from . import utils
 
 
 class FileDisplay(Widget):
@@ -49,6 +50,7 @@ class ContentFileDisplay(Static):
         super().__init__(name=name, id=id, classes=classes)
         self.content_file = content_file
         self.icon = icons.DIRECTORY if content_file.type == 'dir' else icons.FILE
+        self.last_commit = self.content_file.repository.get_commits(path=self.content_file.path)[0]
 
     def compose(self) -> ComposeResult:
         yield Container(
@@ -57,7 +59,8 @@ class ContentFileDisplay(Static):
                 Static(self.content_file.name, classes='w-auto'),
                 classes='w-1fr layout-horizontal',
             ),
-            Static(self.content_file.sha, classes='w-1fr text-right'),
+            Static(utils.truncate_commit_message(self.last_commit.commit.message, 30), classes='w-1fr'),
+            Static(self.last_commit.commit.last_modified, classes='w-1fr text-right'),
             classes='layout-horizontal',
         )
 
@@ -86,6 +89,7 @@ class Directory(Widget, can_focus=True):
         super().__init__(name=name, id=id, classes=classes)
         self.repository = repository
         self.content_files = content_files
+        self.last_commit = repository.get_commits()[0]
         # Sort files and directories
         self.content_files.sort(key=lambda x: x.type)
         self.selected_file_index = 0
@@ -129,7 +133,73 @@ class Directory(Widget, can_focus=True):
             for content_file in self.content_files
         ]
         content_file_displays[self.selected_file_index].add_class('highlight-background')
-        yield Container(*content_file_displays, classes='px-4')
+        yield Container(
+            Static(icons.BRANCH, classes='w-auto mr-1'),
+            Static(self.repository.default_branch, classes='w-auto mr-3'),
+            Static(str(len(list(self.repository.get_branches()))), classes='w-auto text-bold mr-1'),
+            Static('branches', classes='w-auto mr-3'),
+            Static(icons.TAGS, classes='w-auto mr-1'),
+            Static(str(len(list(self.repository.get_tags()))), classes='text-bold w-auto mr-1'),
+            Static('tags', classes='w-auto mr-3'),
+            Container(
+                Static(self.repository.description, classes='text-right w-auto ah-right'),
+                classes='ah-right w-auto text-right',
+            ),
+            classes='h-auto layout-horizontal px-2 border-primary-background panel-background mt-2',
+        )
+        yield Container(
+            Static(self.last_commit.author.login, classes='text-bold w-1fr'),
+            Static(utils.truncate_commit_message(self.last_commit.commit.message, 30), classes='w-1fr'),
+            Static(self.last_commit.last_modified, classes='text-right w-1fr'),
+            classes='h-auto layout-horizontal px-2 border-primary-background panel-background',
+        )
+        yield Container(*content_file_displays, classes='mt-1')
+
+
+class PageTop(Widget):
+    def __init__(
+            self,
+            *,
+            repository: Repository,
+            name=None,
+            id=None,
+            classes=None,
+    ):
+        super().__init__(name=name, id=id, classes=classes)
+        self.repository = repository
+
+    def compose(self) -> ComposeResult:
+
+        yield Container(
+            Static(self.repository.full_name, classes='w-auto mr-2'),
+            Static(self.repository.visibility, classes='muted w-auto'),
+            classes='layout-horizontal w-1fr'
+        )
+        if self.repository.fork:
+            yield Container(
+                Static('forked from', classes='mr-1 w-auto'),
+                Static(self.repository.source.full_name, classes='w-auto secondary'),
+                classes='layout-horizontal w-1fr text-center',
+            )
+
+        yield Container(
+            # Watchers
+            Static(icons.WATCHERS, classes='w-auto mr-1'),
+            Static('watchers', classes='w-auto mr-1'),
+            Static(str(self.repository.watchers_count), classes='w-auto text-bold mr-3'),
+            # Forks
+            Static(icons.FORKS, classes='w-auto mr-1'),
+            Static('forks', classes='w-auto mr-1'),
+            Static(
+                str(self.repository.source.forks_count) if self.repository.fork else str(self.repository.fork_count),
+                classes='w-auto text-bold mr-3',
+            ),
+            # Stars
+            Static(icons.STARS, classes='w-auto mr-1'),
+            Static('stars', classes='w-auto mr-1'),
+            Static(str(self.repository.stargazers_count), classes='w-auto text-bold'),
+            classes='layout-horizontal w-1fr ah-right',
+        )
 
 
 class RepositoryScreen(Screen):
@@ -159,12 +229,9 @@ class RepositoryScreen(Screen):
             self.mode = 'file'
 
     def compose(self) -> ComposeResult:
+        yield PageTop(repository=self.repository, classes='dock-top h-auto p-1 layout-horizontal border-bottom-white')
         if self.mode == 'dir':
-            yield Container(
-                Static(self.repository.full_name, classes='mb-2'),
-                Directory(repository=self.repository, content_files=self.path_content),
-                classes='overflow-y-hidden', id='repository-content'
-            )
+            yield Directory(repository=self.repository, content_files=self.path_content)
         else:
             yield FileDisplay(content_file=self.path_content)
         yield Footer()

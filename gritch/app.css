@@ -10,3 +10,6 @@
 .white {
     color: white
 }
+.panel-background {
+    background: $panel;
+}
