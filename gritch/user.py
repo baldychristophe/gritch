@@ -43,11 +43,9 @@ class RepositoryPreview(Static):
                 classes='w-1fr layout-horizontal',
             ),
             Container(
-                Static(
-                    f'Forked from {self.repository.source.full_name}' if self.repository.fork else "",
-                    classes='text-right',
-                ),
-                classes='w-1fr layout-horizontal',
+                Static(f'Forked from' if self.repository.fork else "", classes='mr-1 w-auto'),
+                Static(self.repository.source.full_name if self.repository.fork else "", classes='w-auto secondary'),
+                classes='w-1fr layout-horizontal ah-right',
             ),
             classes='layout-horizontal w-100',
         )
