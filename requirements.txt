@@ -18,7 +18,6 @@ diskcache==5.4.0
 exceptiongroup==1.1.0
 executing==1.2.0
 frozenlist==1.3.3
--e git+https://github.com/baldychristophe/gritch.git@9fcd67d16a58527b5c04d0df5afe8e5ded6c774e#egg=gritch
 idna==3.4
 importlib-metadata==4.13.0
 install==1.3.5
