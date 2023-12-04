@@ -1,5 +1,15 @@
 # gritch
 
+Gritch is a prototype [textual](https://textual.textualize.io/)-based application aiming to replicate github.
+
+> **Note**: The application was made with the very early `0.8.0` version of textual
+
+it can be run in a terminal to access the personal profile page of a user, browse its repositories 
+and their content.
+
+It was developped primarily to assess the possibilities of the framework `textual` and learn how to use it, 
+as a personal curiosity.
+
 ## Installation
 - Install the dependencies:
 ```commandline
@@ -19,10 +29,16 @@ export GIT_ACCESS_TOKEN=<the-token>
 gritch
 ```
 
-## Ideas for improvements
-- Components returning None
-- Tailwind's style CSS with classes
-- Passing props to child components
-- Adding custom extensions to an app
-- Hover don't bubble up to the parent component
-- Passing arguments to an app when starting
+## Screenshots
+
+### User profile page
+![User profile](screenshots/user_profile.png)
+
+### List of repositories
+![repositories](screenshots/repositories.png)
+
+### Inside a repository
+![repository files](screenshots/repository_files.png)
+
+### Read a file
+![read a file](screenshots/read_file.png)

@@ -13,9 +13,9 @@ def start(dev: bool):
     # see https://github.com/Textualize/textual/blob/main/src/textual/cli/cli.py
     from textual.features import parse_features
     features = set(parse_features(os.environ.get("TEXTUAL", "")))
-    if dev:
-        features.add("debug")
-        features.add("devtools")
+    # if dev:
+    features.add("debug")
+    features.add("devtools")
 
     os.environ["TEXTUAL"] = ",".join(sorted(features))
 

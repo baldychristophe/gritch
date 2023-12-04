@@ -37,15 +37,18 @@ class Contribution(Widget):
             return ""
 
         soup = BeautifulSoup(raw_request.content)
-        rects = soup.find_all('rect', attrs={'class': 'ContributionCalendar-day'})
+        rects = soup.find_all('td', attrs={'class': 'ContributionCalendar-day'})
         contributions = [rect.attrs['data-level'] for rect in rects if 'data-date' in rect.attrs]
 
-        contribution_regex = re.compile(r'(?P<number>\d{1,4}) contributions? on')
+        # contribution_regex = re.compile(r'(?P<number>\d{1,4}) contributions? on')
         total_contributions = 0
-        for rect in [rect for rect in rects if rect.contents]:
-            search = re.search(contribution_regex, rect.contents[0])
-            if search:
-                total_contributions += int(search.groupdict()['number'])
+        for contribution in contributions:
+            total_contributions += int(contribution)
+
+        # for rect in [rect for rect in rects if rect.contents]:
+            # search = re.search(contribution_regex, rect.contents[0])
+            # if search:
+            #     total_contributions += int(search.groupdict()['number'])
 
         yield Container(
             Static(str(total_contributions), classes='text-bold w-auto mr-2'),
