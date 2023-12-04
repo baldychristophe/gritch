@@ -10,7 +10,7 @@ setup(
         'PyGithub',
         'requests',
         'rich',
-        'rich_pixel',
+        'rich_pixels',
         'textual',
     ],
 )
