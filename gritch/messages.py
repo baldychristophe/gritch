@@ -1,4 +1,4 @@
-from textual.types import MessageTarget
+from textual.events import MessageTarget
 from textual.message import Message
 
 from github import Repository
