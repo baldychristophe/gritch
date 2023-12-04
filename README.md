@@ -10,7 +10,21 @@ and their content.
 It was developped primarily to assess the possibilities of the framework `textual` and learn how to use it, 
 as a personal curiosity.
 
-## Installation
+## Screenshots
+
+### User profile page
+![User profile](screenshots/user_profile.png)
+
+### List of repositories
+![repositories](screenshots/repositories.png)
+
+### Inside a repository
+![repository files](screenshots/repository_files.png)
+
+### Read a file
+![read a file](screenshots/read_file.png)
+
+## Usage
 - Install the dependencies:
 ```commandline
 pip install -e . -r requirements.txt
@@ -28,17 +42,3 @@ export GIT_ACCESS_TOKEN=<the-token>
 ```commandline
 gritch
 ```
-
-## Screenshots
-
-### User profile page
-![User profile](screenshots/user_profile.png)
-
-### List of repositories
-![repositories](screenshots/repositories.png)
-
-### Inside a repository
-![repository files](screenshots/repository_files.png)
-
-### Read a file
-![read a file](screenshots/read_file.png)
