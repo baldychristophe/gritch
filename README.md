@@ -1,6 +1,6 @@
 # gritch
 
-Gritch is a prototype [textual](https://textual.textualize.io/)-based application aiming to replicate github.
+Gritch is a prototype [textual](https://textual.textualize.io/)-based application aiming to replicate github in a terminal.
 
 > **Note**: The application was made with the very early `0.8.0` version of textual
 
